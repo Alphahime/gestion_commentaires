@@ -44,8 +44,9 @@ public function modifier_commentaire_traitement(Request $request, $id)
     $commentaire->nom_complet_auteur = $request->nom_complet_auteur;
     $commentaire->save();
 
-    return redirect()->route('articles')->with('success', 'Commentaire modifié avec succès.');
+    return redirect('/articles')->with('success', 'Commentaire modifié avec succès.');
 }
+
 
 public function supprimer_commentaire($id)
 {
@@ -54,5 +55,5 @@ public function supprimer_commentaire($id)
 
     return redirect()->back()->with('success', 'Commentaire supprimé avec succès.');
 }
-    
+
 }

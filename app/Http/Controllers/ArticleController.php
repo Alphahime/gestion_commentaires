@@ -92,6 +92,8 @@ public function modifier_article(Request $request, $id)
     }
 }
    
-
+public function details_article(){
+      return view('articles.details');
+}
 
 }

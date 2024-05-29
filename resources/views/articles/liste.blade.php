@@ -29,7 +29,6 @@
                     </form>
                 </div>
 
-                <!-- Comments Section -->
                 <div class="mt-4">
                     <h3>Commentaires</h3>
                     @foreach ($article->commentaires as $commentaire)
@@ -43,6 +42,7 @@
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
                                 </form>
+                                <a href="{{ route('articles.details', $article->id) }}" class="btn btn-info">Détails de l'article</a>
                             </div>
                         </div>
                     @endforeach
