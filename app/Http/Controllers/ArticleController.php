@@ -92,8 +92,12 @@ public function modifier_article(Request $request, $id)
     }
 }
    
-public function details_article(){
-      return view('articles.details');
+public function details_article($id){
+       $article = Article::find($id);
+      return view('articles.details',[
+        'article' => $article
+      ]);
+     
 }
 
 }
