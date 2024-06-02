@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 use App\Models\Article;
 
-
 class ArticleController extends Controller
 {
     //
@@ -16,26 +15,28 @@ class ArticleController extends Controller
      
     return view('articles.liste', compact('articles'));
     }
-  public function ajouter_article_traitement(Request $request)
-{
-    $request->validate([
-        'nom' => 'required',
-        'description' => 'required',
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-    ]);
-
-    $article = new Article();
-
-    $article->nom = $request->nom;
-    $article->description = $request->description;
-    $article->date_creation = now(); 
-    $article->status = '0'; 
-    $article->image = $request->file('image')->store('images', 'public'); 
-
-    $article->save();
-
-    return redirect('/ajouter')->with('status', 'Article ajouté avec succès.');
-}
+    public function ajouter_article_traitement(Request $request)
+    {
+        $request->validate([
+            'nom' => 'required',
+            'description' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'status' => 'required|in:0,1',
+        ]);
+    
+        $article = new Article();
+    
+        $article->nom = $request->nom;
+        $article->description = $request->description;
+        $article->date_creation = now(); 
+        $article->status = $request->status;
+        $article->image = $request->file('image')->store('images', 'public'); 
+    
+        $article->save();
+    
+        return redirect('/ajouter')->with('status', 'Article ajouté avec succès.');
+    }
+    
    public function ajouter_article()
 {
     return view('articles.ajouter');
@@ -74,10 +75,10 @@ public function modifier_article(Request $request, $id)
            
             $article->save();
 
-            return redirect('/articles')->with('success', 'Article modifié avec succès.');
+            return redirect('/articles')->with('succes', 'Article modifié avec succès.');
         } catch (\Exception $e) {
            
-            return redirect()->back()->with('error', 'Une erreur est survenue lors de la modification de l\'article.');
+            return redirect()->back()->with('erreur', 'Une erreur est survenue lors de la modification de l\'article.');
         }
     }
 

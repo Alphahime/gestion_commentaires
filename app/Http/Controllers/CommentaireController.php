@@ -14,7 +14,7 @@ class CommentaireController extends Controller
         'contenu' => 'required',
         'nom_complet_auteur' => 'required',
     ]);
-
+    //Article::create($request->all());
     $commentaire = new Commentaire([
         'article_id' => $articleId,
         'contenu' => $request->contenu,
@@ -24,7 +24,7 @@ class CommentaireController extends Controller
 
     $commentaire->save();
 
-    return redirect()->back()->with('success', 'Commentaire ajouté avec succès.');
+    return redirect()->back()->with('reussi', 'Commentaire ajouté avec succès.');
 }
 public function modifier_commentaire($id)
 {

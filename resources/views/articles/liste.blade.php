@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Liste des articles</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMpTuH4MGN7mtKZ6pZEE48Na/wP19bI1ap6FoH/" crossorigin="anonymous">
 </head>
 <body>
     <div class="container mt-4">
@@ -16,9 +17,9 @@
         <div class="card mb-3">
             <div class="card-body">
                 <h2 class="card-title">{{ $article->nom }}</h2>
-                <p class="card-text">{{ $article->description }}</p>
+                <p class="card-text">{{ Str::limit($article->description, 250) }}</p>
                 <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->nom }}" class="img-fluid">
-                <p><strong>Status :</strong> {{ $article->status ? 'À la une' : 'Recent' }}</p>
+                <p><strong>Status :</strong> {{ $article->status ? 'À la une' : 'Récent' }}</p>
                 <p><strong>Date de publication :</strong> {{ \Carbon\Carbon::parse($article->date_creation)->format('d/m/Y H:i') }}</p>
                 <div class="mt-3">
                     <a href="/modifier/{{ $article->id }}" class="btn btn-warning">Modifier</a>
@@ -27,6 +28,12 @@
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Supprimer</button>
                     </form>
+                    <a href="{{ route('articles.details', $article->id) }}" class="btn btn-info">Détails de l'article</a>
+                    @if($article->status)
+                        <button class="btn btn-warning">
+                            <i class="fas fa-star"></i> À la une
+                        </button>
+                    @endif
                 </div>
 
                 <div class="mt-4">
@@ -42,23 +49,9 @@
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
                                 </form>
-                                <a href="{{ route('articles.details', $article->id) }}" class="btn btn-info">Détails de l'article</a>
                             </div>
                         </div>
                     @endforeach
-
-                    <form action="/articles/{{ $article->id }}/commentaires" method="post" class="mt-3">
-                        @csrf
-                        <div class="form-group">
-                            <label for="nom_complet_auteur">Votre nom:</label>
-                            <input type="text" id="nom_complet_auteur" name="nom_complet_auteur" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="contenu">Commentaire:</label>
-                            <textarea id="contenu" name="contenu" class="form-control" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary mt-2">Ajouter le commentaire</button>
-                    </form>
                 </div>
             </div>
         </div>
